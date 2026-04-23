@@ -19,6 +19,7 @@ python tools/watchlist_tool.py
 python tools/streaming_tool.py
 python tools/history_tool.py
 python tools/kanopy_tool.py
+python tools/watch_history_tool.py
 ```
 
 ## Environment
@@ -61,6 +62,7 @@ Three `@tool`-decorated LangChain tools exposed to the agent:
 | Tool | File | What it does |
 |------|------|---|
 | `search_watchlist` | `watchlist_tool.py` | Merges Letterboxd + analog CSVs, deduplicates against watch history, attaches TMDB metadata from `watchlist_enriched.json`. Always call with `query="all"`. |
+| `search_watch_history` | `watch_history_tool.py` | Searches `movie_data_final.csv` by title keyword; returns rating, log date, genres, runtime, and sentiment. Use when Alex asks about films he has already seen or wants to rewatch. |
 | `get_taste_profile` | `history_tool.py` | Computes genre affinity scores (`avg_rating × log(count+1)`), decade preferences, and runtime median from `movie_data_final.csv`. Cached in-memory after first call. |
 | `check_streaming` | `streaming_tool.py` | Checks Max/Hulu/Criterion via TMDB `watch/providers`, and Kanopy via SAPL's Kanopy API (`kanopy_tool.py`). Uses a 7-day disk cache at `data/tmdb_cache.json`. |
 

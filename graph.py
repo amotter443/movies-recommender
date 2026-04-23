@@ -14,11 +14,11 @@ from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
 
 from state import RecommenderState
-from tools import search_watchlist, get_taste_profile, check_streaming
+from tools import search_watchlist, search_watch_history, get_taste_profile, check_streaming
 from prompts import build_system_prompt
 
 # ── Model setup ──────────────────────────────────────────────────────────────
-_tools = [search_watchlist, get_taste_profile, check_streaming]
+_tools = [search_watchlist, search_watch_history, get_taste_profile, check_streaming]
 _model = ChatAnthropic(model="claude-sonnet-4-6", streaming=True).bind_tools(_tools)
 
 

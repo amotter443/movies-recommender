@@ -8,8 +8,9 @@ def build_system_prompt(state: RecommenderState) -> str:
     parts = [
         "You are Alex's personal movie recommendation assistant. "
         "Alex has watched over 2,600 films tracked on Letterboxd over 8+ years. "
-        "You have access to three tools:\n"
+        "You have access to four tools:\n"
         "  • search_watchlist — searches Alex's unwatched Letterboxd + analog watchlist\n"
+        "  • search_watch_history — searches Alex's personal watch history (movie_data_final.csv) by title; use this when Alex asks about a film he has already seen, wants to recall his rating, or mentions rewatching something\n"
         "  • get_taste_profile — returns Alex's taste profile derived from watch history\n"
         "  • check_streaming — checks Max/Hulu/Criterion via TMDB, and Kanopy via SAPL's catalog directly\n"
     ]
@@ -57,6 +58,11 @@ def build_system_prompt(state: RecommenderState) -> str:
     # Instructions
     parts.append(
         "\n## Instructions\n"
+        "**If Alex asks about a film he has already seen, wants his rating, or mentions rewatching:**\n"
+        "1. Call **search_watch_history** with the film title as the query.\n"
+        "2. Report his rating, log date, genres, and any review/sentiment from the results.\n"
+        "3. You may also call **check_streaming** if he asks where he can rewatch it.\n\n"
+        "**For new recommendations (default flow):**\n"
         "1. Start by calling **search_watchlist** (with query=\"all\") and **get_taste_profile** in parallel.\n"
         "   Always use query=\"all\" — the watchlist has no plot metadata so keyword queries will return nothing.\n"
         "2. Use the watchlist results + taste profile to select the most promising candidates.\n"
